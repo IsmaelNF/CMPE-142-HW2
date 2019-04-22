@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void bubbleSort(int arr1[], int arr2[], int arr3[], int size);
+void swap(int *i, int *j);
+
 int main(){
 
 	char ch, file_name[30];
@@ -36,18 +39,23 @@ int main(){
          		printf("Bad line detected\n");
          		exit(-1);                   
     		}
-	/*Below are test prints to check if file is being properly parsed
-        printf("ItemCode= %d\n", id);
-    	printf("Item= %d\n", arrival);
-    	printf("Price= %d\n\n", duration);*/
-	
-	//Saved parsed data to arrays
-	id_arr[i] = id;
-	arrival_arr[i] = arrival;
-	duration_arr[i] = duration;
-	i++;
+
+		/*Below are test prints to check if file is being properly parsed
+        	printf("ItemCode= %d\n", id);
+    		printf("Item= %d\n", arrival);
+    		printf("Price= %d\n\n", duration);*/
+		
+		//Saved parsed data to arrays
+		id_arr[i] = id;
+		arrival_arr[i] = arrival;
+		duration_arr[i] = duration;
+		i++;
 	}
 	
+	//FIFO Scheduling algorithm implemented below
+	bubbleSort(arrival_arr, id_arr, duration_arr, i); //sort based on arrival time
+
+
 	//Check to see if arrays are holding the correct data
 	for(int x = 0; x < i; x++){
 		printf("%d %d %d\n", id_arr[x], arrival_arr[x], duration_arr[x]);
@@ -55,4 +63,25 @@ int main(){
 
    	fclose(fp); //close file
    	return 0;
+}
+
+//All arrays are sorted based on the index of first argument, arr1[]
+void bubbleSort(int arr1[], int arr2[], int arr3[], int size){
+	for(int i = 0; i < size; i++){
+		for(int j = 0; j < size-i-1; j++){
+			if(arr1[j] > arr1[j+1]){
+				swap(&arr1[j], &arr1[j+1]);
+				swap(&arr2[j], &arr2[j+1]);
+				swap(&arr3[j], &arr3[j+1]);				
+			}
+		}
+	}	
+
+}
+
+void swap(int *i, int *j)
+{
+    int temp = *i;
+    *i = *j;
+    *j = temp;
 }
