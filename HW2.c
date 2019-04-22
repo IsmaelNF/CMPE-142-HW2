@@ -17,16 +17,26 @@ void main(){
  	
 	printf("The contents of %s file are:\n", file_name);
 	
-	//create arrays to parse data into
-	char id[100];
-	char arrival[100];
-	char duration[100];
-		
-   	while((ch = fgetc(fp)) != EOF){ //Read through file
-      		printf("%c", ch);
-		
- 	}
+	//create variables to parse data into
+	char line[2048];
+	int id;
+	int arrival;
+	int  duration;
+	
+	while(fgets(line, sizeof(line), fp) != NULL) //while fgets does not fail to scan a line
+	{
+    		if(sscanf(line, "%d %d %d", &id, &arrival, &duration) !=3) //If sscanf failed to scan everything from the scanned line
+      		{    
+         		printf("Bad line detected\n");
+         		exit(-1);                   
+    		}
 
-   	fclose(fp);
+    	printf("ItemCode= %d\n", id);
+    	printf("Item= %d\n", arrival);
+    	printf("Price= %d\n\n", duration);
+        //Print scanned items
+	}
+
+   	fclose(fp); //close file
    	return 0;
 }
