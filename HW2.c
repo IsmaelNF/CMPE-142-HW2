@@ -3,6 +3,8 @@
 
 void bubbleSort(int arr1[], int arr2[], int arr3[], int size);
 void swap(int *i, int *j);
+void bubbleSort_duration(int arr1[], int arr2[], int arr3[], int size);
+void arrCopy(int arr1[], int arr2[], int size);
 
 int main(){
 
@@ -41,9 +43,9 @@ int main(){
     		}
 
 		/*Below are test prints to check if file is being properly parsed
-        	printf("ItemCode= %d\n", id);
-    		printf("Item= %d\n", arrival);
-    		printf("Price= %d\n\n", duration);*/
+        	printf("ID= %d\n", id);
+    		printf("Arrival= %d\n", arrival);
+    		printf("Duration= %d\n\n", duration);*/
 		
 		//Saved parsed data to arrays
 		id_arr[i] = id;
@@ -52,14 +54,38 @@ int main(){
 		i++;
 	}
 	
-	//FIFO Scheduling algorithm implemented below
+//FIFO Scheduling algorithm implemented below
 	bubbleSort(arrival_arr, id_arr, duration_arr, i); //sort based on arrival time
+	
+	//Creating copy of data to implement edge case for elapsed time without altering original scheduling	
+	int arrival_arr_copy[100], id_arr_copy[100], duration_arr_copy[100];
+	arrCopy(arrival_arr, arrival_arr_copy, 100);
+	arrCopy(id_arr, id_arr_copy, 100);
+	arrCopy(duration_arr, duration_arr_copy, 100);
 
+	bubbleSort_duration(arrival_arr_copy, id_arr_copy, duration_arr_copy, i); //Resorting data to be able to implement elapsed time
 
 	//Check to see if arrays are holding the correct data
+        for(int x = 0; x < i; x++){
+                printf("%d %d %d\n", id_arr[x], arrival_arr[x], duration_arr[x]);
+        }
+	
+	//Output FIFO Start and Finish  Time for each job
+	for(int x = 0; x < i; x++){
+                printf("ID: %d   Start Time: %d   Finish Time: %d\n", id_arr[x], arrival_arr[x], duration_arr[x]+arrival_arr[x]);
+        }
+	
+	for(int x = 0; x < i; x++){
+                printf("ID_copy: %d   Start Time_copy: %d   Finish Time_copy: %d\n", id_arr_copy[x], arrival_arr_copy[x], duration_arr_copy[x]+arrival_arr_copy[x]);
+        }
+	
+
+//SJF Scheduling algorithm implemented below (not yet done, just formatting)
+
+	/*Check to see if arrays are holding the correct data
 	for(int x = 0; x < i; x++){
 		printf("%d %d %d\n", id_arr[x], arrival_arr[x], duration_arr[x]);
-	}
+	}*/
 
    	fclose(fp); //close file
    	return 0;
@@ -69,19 +95,40 @@ int main(){
 void bubbleSort(int arr1[], int arr2[], int arr3[], int size){
 	for(int i = 0; i < size; i++){
 		for(int j = 0; j < size-i-1; j++){
-			if(arr1[j] > arr1[j+1]){
+			if(arr1[j] > arr1[j+1])
+			{	
 				swap(&arr1[j], &arr1[j+1]);
 				swap(&arr2[j], &arr2[j+1]);
 				swap(&arr3[j], &arr3[j+1]);				
 			}
 		}
 	}	
-
 }
+
+//Bubble sort is re-written so that if the arrival time is the same for two ID's, the duration is used to sort 
+void bubbleSort_duration(int arr1[], int arr2[], int arr3[], int size){
+        for(int i = 0; i < size; i++){
+                for(int j = 0; j < size-i-1; j++){
+                        if(arr1[j] == arr1[j+1] && arr3[j] > arr3[j+1]){
+                                swap(&arr1[j], &arr1[j+1]);
+                                swap(&arr2[j], &arr2[j+1]);
+                                swap(&arr3[j], &arr3[j+1]);
+
+                        }
+                }
+        }
+}
+
 
 void swap(int *i, int *j)
 {
     int temp = *i;
     *i = *j;
     *j = temp;
+}
+
+void arrCopy(int arr1[], int arr2[], int size){
+	for(int i = 0; i < size; i++){
+		arr2[i] = arr1[i];
+	}
 }
