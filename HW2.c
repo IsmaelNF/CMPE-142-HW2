@@ -57,13 +57,14 @@ int main(){
 //FIFO Scheduling algorithm implemented below
 	bubbleSort(arrival_arr, id_arr, duration_arr, i); //sort based on arrival time
 	
-	//Creating copy of data to implement edge case for elapsed time without altering original scheduling	
+	/*DELETE
+	 * //Creating copy of data to implement edge case for elapsed time without altering original scheduling	
 	int arrival_arr_copy[100], id_arr_copy[100], duration_arr_copy[100];
 	arrCopy(arrival_arr, arrival_arr_copy, 100);
 	arrCopy(id_arr, id_arr_copy, 100);
 	arrCopy(duration_arr, duration_arr_copy, 100);
-
 	bubbleSort_duration(arrival_arr_copy, id_arr_copy, duration_arr_copy, i); //Resorting data to be able to implement elapsed time
+	*/
 
 	//Check to see if arrays are holding the correct data
         for(int x = 0; x < i; x++){
@@ -71,14 +72,86 @@ int main(){
         }
 	
 	//Output FIFO Start and Finish  Time for each job
+	int finish_time[100];  
+	int elapsed_time[100];
 	for(int x = 0; x < i; x++){
-                printf("ID: %d   Start Time: %d   Finish Time: %d\n", id_arr[x], arrival_arr[x], duration_arr[x]+arrival_arr[x]);
+                printf("ID: %d   Start Time: %d    ", id_arr[x], arrival_arr[x]);
+		if(x==0){
+                        finish_time[x] = arrival_arr[x] + duration_arr[x];
+		}
+                else if(finish_time[x-1] < arrival_arr[x]){
+                        finish_time[x] = arrival_arr[x] + duration_arr[x];
+                }
+                else{
+                        finish_time[x] = finish_time[x-1] + duration_arr[x];
+                }
+                printf("Finish time: %d    ",  finish_time[x]);
+
+		if(x==0){
+                        elapsed_time[x] = arrival_arr[x] + duration_arr[x];
+                }
+                else if(elapsed_time[x-1] < arrival_arr[x]){
+                        elapsed_time[x] = arrival_arr[x] + duration_arr[x];
+                }
+                else{
+                        elapsed_time[x] = elapsed_time[x-1] + duration_arr[x];
+                }
+                printf("Elapsed time: %d\n", elapsed_time[x]);
+
         }
-	
+	/*	
+	int finish_time[100];	
 	for(int x = 0; x < i; x++){
-                printf("ID_copy: %d   Start Time_copy: %d   Finish Time_copy: %d\n", id_arr_copy[x], arrival_arr_copy[x], duration_arr_copy[x]+arrival_arr_copy[x]);
+		if(x==0){
+                        finish_time[x] = arrival_arr[x] + duration_arr[x];
+                }
+                else if(finish_time[x-1] < arrival_arr[x]){
+                        finish_time[x] = arrival_arr[x] + duration_arr[x];
+                }
+                else{
+                        finish_time[x] = finish_time[x-1] + duration_arr[x];
+                }
+                printf("Finish time for ID %d: %d\n", id_arr[x],  finish_time[x]);
+
+	}*/
+	/*DELETE
+	int finish_time[100];
+	for(int x = 0; x < i; x++){
+		finish_time[x] = duration_arr_copy[x] + arrival_arr_copy[x];
+                printf("ID_copy: %d   Start Time_copy: %d   Finish Time_copy: %d\n", id_arr_copy[x], arrival_arr_copy[x], finish_time[x]);
         }
-	
+	*/
+	/*DELETE
+	//Working on making arrays for elapsed, finish time
+	int elapsed_time[100];
+	for(int x = 0; x < i; x++){
+		if(x==0){
+			elapsed_time[x] = arrival_arr[x] + duration_arr[x];
+		}
+		else if(elapsed_time[x-1] < arrival_arr[x]){
+			elapsed_time[x] = arrival_arr[x] + duration_arr[x];
+		}
+		else{
+			elapsed_time[x] = elapsed_time[x-1] + duration_arr[x];
+		}
+		printf("Elapsed time for ID %d: %d\n", id_arr[x],  elapsed_time[x]);
+	}*/
+
+	/*DELETE
+	for(int x = 0; x < i; x++){   
+		if(x == 0){
+			elapsed_time[x] = arrival_arr_copy[x] + duration_arr_copy[x]; 
+		}
+		else if(finish_time[x-1] < arrival_arr_copy[x] ){
+			elapsed_time[x] = elapsed_time[x-1] + arrival_arr_copy[x] - finish_time[x-1] + duration_arr_copy[x];
+		}
+		else{
+			elapsed_time[x] = finish_time[x-1] + duration_arr_copy[x];
+		}
+		printf("Elapsed time at %d: %d\n", x,  elapsed_time[x]);
+	}
+	*/
+        
 
 //SJF Scheduling algorithm implemented below (not yet done, just formatting)
 
