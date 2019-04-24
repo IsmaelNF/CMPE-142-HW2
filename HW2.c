@@ -66,6 +66,7 @@ int main(){
 	//Output FIFO Start and Finish  Time for each job
 	int finish_time[100];  
 	int elapsed_time[100];
+	int response_time[100];
 	for(int x = 0; x < i; x++){
 		//Calculating finish time for each process
                 printf("ID: %d   Start Time: %d    ", id_arr[x], arrival_arr[x]);
@@ -90,11 +91,27 @@ int main(){
                 else{
                         elapsed_time[x] = elapsed_time[x-1] + duration_arr[x];
                 }
-                printf("Elapsed time: %d\n", elapsed_time[x]);
-
+                printf("Elapsed time: %d    ", elapsed_time[x]);
+		
+		//Calculating response time for each process
+		if(x == 0){
+                        response_time[x] = duration_arr[x] - arrival_arr[x];
+                }
+                else{
+                        response_time[x] = finish_time[x]  - arrival_arr[x];
+                }
+                printf("Response time: %d\n", response_time[x]);
         }
 	
-        
+        /*for(int x = 0; x < i; x++){
+		if(x == 0){
+			response_time[x] = duration_arr[x] - arrival_arr[x];	
+		}
+		else{
+			response_time[x] = response_time[x-1] + duration_arr[x]  - arrival_arr[x];
+		}
+		printf("Response time: %d\n", response_time[x]);
+	}*/
 
 //SJF Scheduling algorithm implemented below (not yet done, just formatting)
 
