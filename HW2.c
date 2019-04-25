@@ -57,63 +57,114 @@ int main(){
 //FIFO Scheduling algorithm implemented below
 	bubbleSort(arrival_arr, id_arr, duration_arr, i); //sort based on arrival time
 	
+	printf("\nFIFO Scheduling:\n");
+
 	//Check to see if arrays are holding the correct data
         for(int x = 0; x < i; x++){
                 printf("%d %d %d\n", id_arr[x], arrival_arr[x], duration_arr[x]);
         }
-	printf("\nFIFO Scheduling:\n");
-
+	
 	//Output FIFO Start and Finish  Time for each job
-	int finish_time[100];  
-	int elapsed_time[100];
-	int response_time[100];
+	int fifo_finish_time[100];  
+	int fifo_elapsed_time[100];
+	int fifo_response_time[100];
 	for(int x = 0; x < i; x++){
 		//Calculating finish time for each process
                 printf("ID: %d   Start Time: %d    ", id_arr[x], arrival_arr[x]);
 		if(x==0){
-                        finish_time[x] = arrival_arr[x] + duration_arr[x];
+                        fifo_finish_time[x] = arrival_arr[x] + duration_arr[x];
 		}
-                else if(finish_time[x-1] < arrival_arr[x]){
-                        finish_time[x] = arrival_arr[x] + duration_arr[x];
+                else if(fifo_finish_time[x-1] < arrival_arr[x]){
+                        fifo_finish_time[x] = arrival_arr[x] + duration_arr[x];
                 }
                 else{
-                        finish_time[x] = finish_time[x-1] + duration_arr[x];
+                        fifo_finish_time[x] = fifo_finish_time[x-1] + duration_arr[x];
                 }
-                printf("Finish time: %d    ",  finish_time[x]);
+                printf("Finish time: %d    ",  fifo_finish_time[x]);
 		
 		//Calculating elapsed time for each process
 		if(x==0){
-                        elapsed_time[x] = arrival_arr[x] + duration_arr[x];
+                        fifo_elapsed_time[x] = arrival_arr[x] + duration_arr[x];
                 }
-                else if(elapsed_time[x-1] < arrival_arr[x]){
-                        elapsed_time[x] = arrival_arr[x] + duration_arr[x];
+                else if(fifo_elapsed_time[x-1] < arrival_arr[x]){
+                        fifo_elapsed_time[x] = arrival_arr[x] + duration_arr[x];
                 }
                 else{
-                        elapsed_time[x] = elapsed_time[x-1] + duration_arr[x];
+                        fifo_elapsed_time[x] = fifo_elapsed_time[x-1] + duration_arr[x];
                 }
-                printf("Elapsed time: %d    ", elapsed_time[x]);
+                printf("Elapsed time: %d    ", fifo_elapsed_time[x]);
 		
 		//Calculating response time for each process
 		if(x == 0){
-                        response_time[x] = duration_arr[x] - arrival_arr[x];
+                        fifo_response_time[x] = duration_arr[x] - arrival_arr[x];
                 }
                 else{
-                        response_time[x] = finish_time[x]  - arrival_arr[x];
+                        fifo_response_time[x] = fifo_finish_time[x]  - arrival_arr[x];
                 }
-                printf("Response time: %d\n", response_time[x]);
+                printf("Response time: %d\n", fifo_response_time[x]);
         }
 	
-        /*for(int x = 0; x < i; x++){
-		if(x == 0){
-			response_time[x] = duration_arr[x] - arrival_arr[x];	
-		}
-		else{
-			response_time[x] = response_time[x-1] + duration_arr[x]  - arrival_arr[x];
-		}
-		printf("Response time: %d\n", response_time[x]);
-	}*/
-
 //SJF Scheduling algorithm implemented below (not yet done, just formatting)
+        bubbleSort(duration_arr, id_arr, arrival_arr, i); //sort based on arrival time
+
+	printf("\nSJF Scheduling:\n");
+	
+	int arrival_arr_copy[100], id_arr_copy[100], duration_arr_copy[100];
+	arrCopy(arrival_arr, arrival_arr_copy, 100);
+	arrCopy(id_arr, id_arr_copy, 100);
+	arrCopy(duration_arr, duration_arr_copy, 100);
+	bubbleSort_duration(arrival_arr_copy, id_arr_copy, duration_arr_copy, i);
+
+        //Check to see if arrays are holding the correct data
+        for(int x = 0; x < i; x++){
+                printf("%d %d %d\n", id_arr_copy[x], arrival_arr_copy[x], duration_arr_copy[x]);
+        }
+
+       	/* WRONG 
+	int sjf_finish_time[100];
+        int sjf_elapsed_time[100];
+        int sjf_response_time[100];
+        for(int x = 0; x < i; x++){
+                //Calculating finish time for each process
+                printf("ID: %d   Start Time: %d    ", id_arr[x], arrival_arr[x]);
+                if(x==0){
+                        sjf_finish_time[x] = arrival_arr[x] + duration_arr[x];
+                }
+                else if(sjf_finish_time[x-1] < arrival_arr[x]){
+                        sjf_finish_time[x] = arrival_arr[x] + duration_arr[x];
+                }
+                else{
+                        sjf_finish_time[x] = sjf_finish_time[x-1] + duration_arr[x];
+                }
+                printf("Finish time: %d    ",  sjf_finish_time[x]);
+
+                //Calculating elapsed time for each process
+                if(x==0){
+                        sjf_elapsed_time[x] = arrival_arr[x] + duration_arr[x];
+                }
+                else if(sjf_elapsed_time[x-1] < arrival_arr[x]){
+                        sjf_elapsed_time[x] = arrival_arr[x] + duration_arr[x];
+                }
+                else{
+                        sjf_elapsed_time[x] = sjf_elapsed_time[x-1] + duration_arr[x];
+                }
+                printf("Elapsed time: %d    ", sjf_elapsed_time[x]);
+
+                //Calculating response time for each process
+                if(x == 0){
+                        sjf_response_time[x] = duration_arr[x] - arrival_arr[x];
+                }
+                else{
+                        sjf_response_time[x] = sjf_finish_time[x]  - arrival_arr[x];
+                }
+                printf("Response time: %d\n", sjf_response_time[x]);
+        }*/
+
+
+
+
+
+
 
 	/*Check to see if arrays are holding the correct data
 	for(int x = 0; x < i; x++){
