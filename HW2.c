@@ -174,6 +174,15 @@ int main(){
 	}
 	printf("\n");   
 
+	//Copying SJF data for STCF implementation 	
+	bubbleSort(arrival_arr, id_arr, duration_arr, i);
+	int STCF_id[100];	
+	int STCF_arrival[100];
+	int STCF_duration[100];
+	arrCopy(id_arr, STCF_id, i);
+	arrCopy(arrival_arr, STCF_arrival, i);
+	arrCopy(duration_arr, STCF_duration, i);
+
         //printf("%d\t %d\t %d", finishSJF[0], elapsedSJF[0], responseSJF[0]);
         /*while(status)
 	{
@@ -192,7 +201,8 @@ int main(){
             } 
 	} 
         */
-        
+
+//BJF Algorithm Implemented Below
 	bubbleSortReverse(duration_arr, id_arr, arrival_arr, i);
         
 	int finishBJF[100];
@@ -251,6 +261,8 @@ int main(){
 
                 printf("ID: %d\t Start Time: %d\t Finish Time: %d\t Elapsed Time: %d\t  Response Time: %d\n", id_arr[y], arrival_arr[y], finishBJF[y+1], elapsedBJF[y+1], responseBJF[y+1]);
 	}
+
+//RR Algorithm Implemented Below
 	printf("\n");
 
         bubbleSort(arrival_arr, id_arr, duration_arr, i);
@@ -307,11 +319,48 @@ int main(){
 	}
         printf("\n");   
        
+//STCF Algorithm Implemented Below
+        for(int x = 0; x < i; x++){
+                printf("%d %d %d\n", STCF_id[x], STCF_arrival[x], STCF_duration[x]);
+        }
 
-	/*Check to see if arrays are holding the correct data
+	int STCF_start[100];
+	int STCF_finish_time[100];
+        int STCF_elapsed_time[100];
+        int STCF_response_time[100];
+	
 	for(int x = 0; x < i; x++){
-		printf("%d %d %d\n", id_arr[x], arrival_arr[x], duration_arr[x]);
-	}*/
+		if(x==0){
+			STCF_start[x] = STCF_arrival[x];
+		}
+		else if(STCF_arrival[x] > STCF_start[x-1] + STCF_duration[x-1]){
+			STCF_start[x] = STCF_arrival[x];
+		}
+		else if(STCF_arrival[x] != STCF_arrival[x-1] && STCF_arrival[x] < (STCF_duration[x-1] + STCF_arrival[x-1])){
+			if((STCF_duration[x-1] - (STCF_arrival[x-1] - STCF_arrival[x])) <  STCF_duration[x]){
+				STCF_start[x-1] = STCF_arrival[x-1];
+			}	
+			else{
+				STCF_start[x] = STCF_arrival[x];
+			}
+		}
+		else if(STCF_arrival[x] == STCF_arrival[x-1] && STCF_duration[x-1] <= STCF_duration[x]){
+			STCF_start[x] = STCF_start[x-1] + STCF_duration[x-1];
+		}
+
+		else{// if(STCF_start[x-1] < STCF_arrival[x] && STCF_duration[x-1] < STCF_duration[x]){
+			STCF_start[x] = STCF_start[x-1] + STCF_duration[x-1];
+		}
+	}
+
+	for(int x = 0; x < i; x++){
+                printf("\n%d %d %d\n", STCF_id[x], STCF_arrival[x], STCF_start[x]);
+        }
+
+
+
+
+
 
    	fclose(fp); //close file
    	return 0;
